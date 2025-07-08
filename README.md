@@ -1,4 +1,3 @@
-
 # Bucin 🎀🫶🏻💌💓
 
 > **Bucin** is an app designed to strengthen the bond between couples by allowing them to send and receive love letters exclusively with each other.
@@ -15,8 +14,8 @@ The name **Bucin** comes from the Indonesian phrase "Budak Cinta" (meaning "Love
 
 This project is currently under development. Here are the planned stages:
 
-- [x] Project initialization (**current stage**)
-- [ ] Authentication (Login & Sign Up pages)
+- [x] Project initialization
+- [ ] Authentication (Login & Sign Up pages) (**current stage**)
 - [ ] Love letter sending & receiving
 - [ ] Couple dashboard
 - [ ] Notification system
@@ -24,12 +23,15 @@ This project is currently under development. Here are the planned stages:
 
 ---
 
-## 🛠️ Built With
+## 🛠️ Tech Stack
 
-- [React](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- [Material UI (MUI)](https://mui.com/) – for beautiful and consistent UI components
-- [ESLint](https://eslint.org/)
+- [React 19](https://react.dev/) — UI library
+- [React Redux 9](https://react-redux.js.org/) — React bindings for Redux
+- [React Router DOM 7](https://reactrouter.com/) — Routing
+- [Vite 7](https://vitejs.dev/) — Build tool
+- [Material UI (MUI) 7](https://mui.com/) — Component library
+- [Redux Toolkit 2](https://redux-toolkit.js.org/) — State management
+- [Axios 1](https://axios-http.com/) — HTTP client
 
 ---
 
