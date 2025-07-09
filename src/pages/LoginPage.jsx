@@ -63,10 +63,7 @@ export const LoginPage = () => {
                       background: alpha(theme.palette.background.paper, 0.35),
                     }}
                   >
-                    <InputLabel
-                      htmlFor="login-email"
-                      sx={{ color: theme.palette.text.secondary }}
-                    >
+                    <InputLabel htmlFor="login-email" sx={{ color: theme.palette.text.secondary }}>
                       Email
                     </InputLabel>
                     <OutlinedInput

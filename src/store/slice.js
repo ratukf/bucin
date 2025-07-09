@@ -6,6 +6,7 @@ const initialState = {
   data: {
     user: [],
     userDetail: {},
+    partnerDetail: {},
     lettersSent: [],
     lettersReceived: [],
     lettersDetail: {},
@@ -16,6 +17,7 @@ const initialState = {
       signup: 'IDLE',
     },
     userDetail: 'IDLE',
+    partnerDetail: 'IDLE',
     lettersSent: 'IDLE',
     lettersReceived: 'IDLE',
     letters: {
@@ -91,6 +93,19 @@ const slice = createSlice({
         state.status.userDetail = 'REJECTED';
         state.data.userDetail = {};
         state.error = action.payload || 'Failed to fetch user data';
+      })
+      .addCase(authAsyncAction.getPartner.pending, (state) => {
+        state.status.partnerDetail = 'PENDING';
+        state.error = null;
+      })
+      .addCase(authAsyncAction.getPartner.fulfilled, (state, action) => {
+        state.status.partnerDetail = 'SUCCESS';
+        state.data.partnerDetail = action.payload;
+        state.error = null;
+      })
+      .addCase(authAsyncAction.getPartner.rejected, (state) => {
+        state.status.partnerDetail = 'REJECTED';
+        state.error = action.payload || 'Failed to fetch partner data';
       })
       .addCase(letterAsyncAction.getLettersSent.pending, (state) => {
         state.status.lettersSent = 'PENDING';

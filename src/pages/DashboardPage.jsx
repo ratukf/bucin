@@ -8,19 +8,20 @@ import { NavbarComponent } from '../components/NavbarComponent';
 import { WhiteBoxComponent } from '../components/WhiteBoxComponent';
 import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useLetter } from '../hooks/useLetter';
 
 export const DashboardPage = () => {
   const theme = useTheme();
-  const { data, status } = useSelector((state) => state.auth);
+  const { data } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const userId = localStorage.getItem('userId') || data?.user?.name;
   const nav = useNavigate();
+  const { useDashboardLetters } = useLetter();
+  const lettersSent = data?.lettersSent ? data?.lettersSent?.length : 0;
+  const lettersReceived = data?.lettersReceived ? data?.lettersReceived?.length : 0;
+  const recentLetters = data?.lettersReceived[0]?.content;
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(authAsyncAction.getUser(userId));
-    }
-  }, [userId]);
+  useDashboardLetters();
 
   return (
     <Box
@@ -52,8 +53,12 @@ export const DashboardPage = () => {
                   <WhiteBoxComponent>
                     <Grid container spacing={2}>
                       {[
-                        { label: 'Letters Sent', value: 10 },
-                        { label: 'Letters Received', value: 30 },
+                        { label: 'Letters Sent', value: lettersSent, route: '../letters-sent' },
+                        {
+                          label: 'Letters Received',
+                          value: lettersReceived,
+                          route: '../letters-received',
+                        },
                       ].map((item, idx) => (
                         <Grid
                           key={item.label}
@@ -67,6 +72,7 @@ export const DashboardPage = () => {
                             component={motion.div}
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
+                            onClick={() => nav(item.route)}
                             transition={{
                               type: 'spring',
                               stiffness: 300,
@@ -111,9 +117,10 @@ export const DashboardPage = () => {
                       <Typography variant={'h4'} sx={{ fontWeight: 950 }}>
                         💌 Recent Letters from Your Partner:
                       </Typography>
-                      <Typography>
-                        Nyenyenye nyenyenye nyenyenye nyenyenye nyenyenye nyenyenye nyenyenye
-                        nyenyenye nyenyenye nyenyenye nyenyenye nyenyenye nyenyenye
+                      <Typography mt={2}>
+                        {recentLetters
+                          ? recentLetters
+                          : 'You have no recent letters from your partner 🥀'}
                       </Typography>
                     </motion.div>
                   </WhiteBoxComponent>
@@ -123,15 +130,38 @@ export const DashboardPage = () => {
               <Grid container mt={2}>
                 <Grid size={12}>
                   <WhiteBoxComponent>
-                    <Typography variant={'h4'} sx={{ fontWeight: 950 }}>
+                    <Typography variant={'h4'} sx={{ fontWeight: 950 }} mb={2}>
                       Letters received:
                     </Typography>
                     <Box display="flex" flexDirection="column" gap={1}>
-                      <Button>💌 Semangat bikin portofnya</Button>
-                      <Button>💌 Jangan lupa bersyukur</Button>
-                      <Button>💌 I love you</Button>
-                      <Button>💌 7 alasan kenapa hari ini harus bahagia</Button>
-                      <Typography textAlign="left">See more..</Typography>
+                      {Array.isArray(data?.lettersReceived) && data.lettersReceived.length > 0 ? (
+                        data.lettersReceived.map((letter) => (
+                          <Button
+                            key={letter.id || letter.title}
+                            sx={{ textAlign: 'left', width: '100%' }}
+                          >
+                            💌 {letter.title}
+                          </Button>
+                        ))
+                      ) : (
+                        <Typography color="text.secondary" textAlign="center" mt={2}>
+                          You have no received letters yet 🥀
+                        </Typography>
+                      )}
+                      <Typography
+                        textAlign="left"
+                        mt={2}
+                        sx={{
+                          cursor: 'pointer',
+                          fontWeight: 600,
+                          textDecoration: 'none',
+                          transition: 'text-decoration 0.2s',
+                          '&:hover': { textDecoration: 'underline' },
+                        }}
+                        onClick={() => nav('/letters-received')}
+                      >
+                        See more..
+                      </Typography>
                     </Box>
                   </WhiteBoxComponent>
                 </Grid>
@@ -140,15 +170,38 @@ export const DashboardPage = () => {
               <Grid container mt={2}>
                 <Grid size={12}>
                   <WhiteBoxComponent>
-                    <Typography variant={'h4'} sx={{ fontWeight: 950 }}>
+                    <Typography variant={'h4'} sx={{ fontWeight: 950 }} mb={2}>
                       Letters sent:
                     </Typography>
                     <Box display="flex" flexDirection="column" gap={1}>
-                      <Button>💌 Makan sayur</Button>
-                      <Button>💌 Bokekk ah</Button>
-                      <Button>💌 I love you</Button>
-                      <Button>💌 7 alasan kenapa hari ini harus bahagia</Button>
-                      <Typography textAlign="left">See more..</Typography>
+                      {Array.isArray(data?.lettersSent) && data.lettersSent.length > 0 ? (
+                        data.lettersSent.map((letter) => (
+                          <Button
+                            key={letter.id || letter.title}
+                            sx={{ textAlign: 'left', width: '100%' }}
+                          >
+                            💌 {letter.title}
+                          </Button>
+                        ))
+                      ) : (
+                        <Typography color="text.secondary" textAlign="center" mt={2}>
+                          You have no sent letters yet 🥀
+                        </Typography>
+                      )}
+                      <Typography
+                        textAlign="left"
+                        mt={2}
+                        sx={{
+                          cursor: 'pointer',
+                          fontWeight: 600,
+                          textDecoration: 'none',
+                          transition: 'text-decoration 0.2s',
+                          '&:hover': { textDecoration: 'underline' },
+                        }}
+                        onClick={() => nav('/letters-sent')}
+                      >
+                        See more..
+                      </Typography>
                     </Box>
                   </WhiteBoxComponent>
                 </Grid>
@@ -178,10 +231,20 @@ export const DashboardPage = () => {
                   alt="Anniversary & Birthday Reminders"
                   style={{ width: '80%', height: 'auto' }}
                 />
-                <Typography mt={2}>Ratu:</Typography>
-                <Typography>56 days left</Typography>
-                <Typography mt={2}>Brian:</Typography>
-                <Typography>56 days left</Typography>
+                <Grid container>
+                  <Grid size={6}>
+                    <Typography mt={2}>{data?.userDetail?.name}</Typography>
+                    <Typography>56 days left</Typography>
+                  </Grid>
+                  <Grid size={6}>
+                    <Typography mt={2}>
+                      {data?.partnerDetail?.name
+                        ? data?.partnerDetail?.name
+                        : 'No partner found ☹️'}
+                    </Typography>
+                    <Typography>{data?.partnerDetail ? '20' : '0'} days left</Typography>
+                  </Grid>
+                </Grid>
               </WhiteBoxComponent>
             </Box>
           </Grid>

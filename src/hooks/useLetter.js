@@ -2,13 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { letterAsyncAction } from '../store/letterAsyncAction';
-import { useState } from 'react';
+import { authAsyncAction } from '../store/authAsyncAction';
+import { useState, useEffect } from 'react';
 
-export function useCreateLetter() {
+export function useLetter() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const { user, data } = useSelector((state) => state.auth);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -36,5 +37,20 @@ export function useCreateLetter() {
     }
   };
 
-  return { theme, handleCreateLetter, successMsg, errorMsg };
+  const useDashboardLetters = () => {
+    useEffect(() => {
+      const userId = localStorage.getItem('userId');
+      const recipient = data?.userDetail?.couple_id;
+      if (userId) {
+        dispatch(authAsyncAction.getUser(userId));
+        dispatch(letterAsyncAction.getLettersSent(userId));
+      }
+      if (recipient) {
+        dispatch(letterAsyncAction.getLettersReceived(recipient));
+        dispatch(authAsyncAction.getPartner(recipient));
+      }
+    }, [dispatch, data?.userDetail?.couple_id]);
+  };
+
+  return { theme, handleCreateLetter, successMsg, errorMsg, useDashboardLetters };
 }

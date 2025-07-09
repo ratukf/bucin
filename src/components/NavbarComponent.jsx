@@ -13,7 +13,7 @@ export const NavbarComponent = () => {
   const navItems = userId
     ? [
         { label: 'Dashboard', path: '/dashboard' },
-        { label: 'Your Profile', path: '/anniversary' },
+        { label: 'Your Profile', path: '/profile' },
         { label: 'Letters Received', path: '/letters-received' },
         { label: 'Letters Sent', path: '/letters-sent' },
         { label: 'Log Out', path: '/logout', isLogout: true },

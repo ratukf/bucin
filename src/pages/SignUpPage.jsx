@@ -58,10 +58,7 @@ export const SignUpPage = () => {
                       background: alpha(theme.palette.background.paper, 0.35),
                     }}
                   >
-                    <InputLabel
-                      htmlFor="signup-name"
-                      sx={{ color: theme.palette.text.secondary }}
-                    >
+                    <InputLabel htmlFor="signup-name" sx={{ color: theme.palette.text.secondary }}>
                       Name
                     </InputLabel>
                     <OutlinedInput
@@ -132,10 +129,7 @@ export const SignUpPage = () => {
                       background: alpha(theme.palette.background.paper, 0.35),
                     }}
                   >
-                    <InputLabel
-                      htmlFor="login-email"
-                      sx={{ color: theme.palette.text.secondary }}
-                    >
+                    <InputLabel htmlFor="login-email" sx={{ color: theme.palette.text.secondary }}>
                       Email
                     </InputLabel>
                     <OutlinedInput

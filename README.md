@@ -17,7 +17,7 @@ This project is currently under development. Here are the planned stages:
 - [x] Project initialization
 - [x] Authentication (Login & Sign Up pages)
 - [ ] Love letter sending & receiving (**current stage**)
-- [ ] Couple dashboard
+- [x] Couple dashboard
 - [ ] Notification system
 - [ ] Responsive & modern UI
 
@@ -63,7 +63,7 @@ Follow these steps to set up and run the project locally:
 
 - [x] Modern login & sign up pages
 - [ ] Send and receive love letters
-- [ ] Couple dashboard
+- [x] Couple dashboard
 - [ ] Push notifications
 - [ ] Responsive design
 
