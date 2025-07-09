@@ -12,9 +12,7 @@ export function useAuth(type, resetForm) {
   const { status, user, error } = useSelector((state) => state.auth);
 
   const isSuccess =
-    type === 'login'
-      ? status.user.login === 'SUCCESS'
-      : status.user.signup === 'SUCCESS';
+    type === 'login' ? status.user.login === 'SUCCESS' : status.user.signup === 'SUCCESS';
 
   const handleAuth = (values, { setSubmitting }) => {
     if (type === 'login') {
@@ -30,15 +28,11 @@ export function useAuth(type, resetForm) {
         if (type === 'login' && user && user.id) {
           localStorage.setItem('userId', user.id);
           nav('../dashboard');
-          dispatch(
-            setStatus({ type: 'user', status: { ...status.user, login: 'IDLE' } })
-          );
+          dispatch(setStatus({ type: 'user', status: { ...status.user, login: 'IDLE' } }));
         }
         if (type === 'signup') {
           nav('../login');
-          dispatch(
-            setStatus({ type: 'user', status: { ...status.user, signup: 'IDLE' } })
-          );
+          dispatch(setStatus({ type: 'user', status: { ...status.user, signup: 'IDLE' } }));
         }
         resetForm && resetForm();
       }, 1000);
