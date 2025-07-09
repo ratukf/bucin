@@ -52,5 +52,36 @@ export function useLetter() {
     }, [dispatch, data?.userDetail?.couple_id]);
   };
 
-  return { theme, handleCreateLetter, successMsg, errorMsg, useDashboardLetters };
+  const useLettersReceived = () => {
+    useEffect(() => {
+      const userId = localStorage.getItem('userId');
+      const recipient = data?.userDetail?.couple_id;
+      if (userId) {
+        dispatch(authAsyncAction.getUser(userId));
+      }
+      if (recipient) {
+        dispatch(letterAsyncAction.getLettersReceived(recipient));
+        dispatch(authAsyncAction.getPartner(recipient));
+      }
+    }, [dispatch, data?.userDetail?.couple_id]);
+  };
+
+  const useLettersSent = () => {
+    useEffect(() => {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        dispatch(letterAsyncAction.getLettersSent(userId));
+      }
+    }, [dispatch]);
+  };
+
+  return {
+    theme,
+    handleCreateLetter,
+    successMsg,
+    errorMsg,
+    useDashboardLetters,
+    useLettersReceived,
+    useLettersSent,
+  };
 }
