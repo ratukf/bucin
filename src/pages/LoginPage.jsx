@@ -1,4 +1,12 @@
-import { Box, Button, Typography, FormControl, InputLabel, OutlinedInput } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Grid,
+} from '@mui/material';
 import { BlinkParticlesComponent } from '../components/BlinkParticlesComponent';
 import { useTheme, alpha } from '@mui/material/styles';
 import { NavbarComponent } from '../components/NavbarComponent';
@@ -18,18 +26,8 @@ export const LoginPage = () => {
   const isSuccess = status.user.login === 'SUCCESS';
 
   const handleLogin = (values, { setSubmitting }) => {
-    dispatch(authAsyncAction(values)).finally(() => setSubmitting(false));
+    dispatch(authAsyncAction.login(values)).finally(() => setSubmitting(false));
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      setTimeout(() => {
-        nav('../dashboard');
-        dispatch(setStatus({ type: 'user', status: 'IDLE' }));
-        Formik.resetForm();
-      }, 1000);
-    }
-  }, [isSuccess]);
 
   return (
     <Box
@@ -61,113 +59,132 @@ export const LoginPage = () => {
             Login
           </Typography>
           <Formik initialValues={{ email: '', password: '' }} onSubmit={handleLogin}>
-            {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-              <Box component="form" sx={{ width: '100%' }} onSubmit={handleSubmit}>
-                <Box mb={2}>
-                  <FormControl
-                    fullWidth
-                    variant="outlined"
-                    sx={{
-                      mb: 1,
-                      borderRadius: 2,
-                      background: alpha(theme.palette.background.paper, 0.35),
-                    }}
-                  >
-                    <InputLabel htmlFor="login-email" sx={{ color: theme.palette.text.secondary }}>
-                      Email
-                    </InputLabel>
-                    <OutlinedInput
-                      id="login-email"
-                      name="email"
-                      type="email"
-                      label="Email"
-                      value={values.email}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+            {({ values, handleChange, handleBlur, handleSubmit, isSubmitting, resetForm }) => {
+              useEffect(() => {
+                if (isSuccess) {
+                  setTimeout(() => {
+                    nav('../dashboard');
+                    dispatch(
+                      setStatus({ type: 'user', status: { ...status.user, login: 'IDLE' } })
+                    );
+                    resetForm();
+                  }, 1000);
+                }
+              }, [isSuccess, nav, dispatch, resetForm, status.user]);
+              return (
+                <Box component="form" sx={{ width: '100%' }} onSubmit={handleSubmit}>
+                  <Box mb={2}>
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
                       sx={{
-                        color: theme.palette.text.primary,
+                        mb: 1,
                         borderRadius: 2,
-                        '& .MuiOutlinedInput-notchedOutline': {
-                          borderColor: theme.palette.divider,
-                        },
-                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                          borderColor: theme.palette.primary.main,
-                        },
-                        background: 'transparent',
+                        background: alpha(theme.palette.background.paper, 0.35),
                       }}
-                    />
-                  </FormControl>
-                </Box>
-                <Box mb={3}>
-                  <FormControl
-                    fullWidth
-                    variant="outlined"
-                    sx={{
-                      mb: 1,
-                      borderRadius: 2,
-                      background: alpha(theme.palette.background.paper, 0.35),
-                    }}
-                  >
-                    <InputLabel
-                      htmlFor="login-password"
-                      sx={{ color: theme.palette.text.secondary }}
                     >
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      id="login-password"
-                      name="password"
-                      type="password"
-                      label="Password"
-                      value={values.password}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+                      <InputLabel
+                        htmlFor="login-email"
+                        sx={{ color: theme.palette.text.secondary }}
+                      >
+                        Email
+                      </InputLabel>
+                      <OutlinedInput
+                        id="login-email"
+                        name="email"
+                        type="email"
+                        label="Email"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        sx={{
+                          color: theme.palette.text.primary,
+                          borderRadius: 2,
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.divider,
+                          },
+                          '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.primary.main,
+                          },
+                          background: 'transparent',
+                        }}
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box mb={3}>
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
                       sx={{
-                        color: theme.palette.text.primary,
+                        mb: 1,
                         borderRadius: 2,
-                        '& .MuiOutlinedInput-notchedOutline': {
-                          borderColor: theme.palette.divider,
-                        },
-                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                          borderColor: theme.palette.primary.main,
-                        },
-                        background: 'transparent',
+                        background: alpha(theme.palette.background.paper, 0.35),
                       }}
-                    />
-                  </FormControl>
+                    >
+                      <InputLabel
+                        htmlFor="login-password"
+                        sx={{ color: theme.palette.text.secondary }}
+                      >
+                        Password
+                      </InputLabel>
+                      <OutlinedInput
+                        id="login-password"
+                        name="password"
+                        type="password"
+                        label="Password"
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        sx={{
+                          color: theme.palette.text.primary,
+                          borderRadius: 2,
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.divider,
+                          },
+                          '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.primary.main,
+                          },
+                          background: 'transparent',
+                        }}
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box textAlign="center">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      disabled={isSubmitting}
+                      sx={{
+                        borderRadius: 2,
+                        fontWeight: 700,
+                        fontSize: 16,
+                        py: 1.5,
+                        boxShadow: theme.shadows[2],
+                        textTransform: 'none',
+                      }}
+                    >
+                      {isSubmitting ? 'Loading...' : 'Log In'}
+                    </Button>
+                    {error && (
+                      <Typography color="error" mt={2}>
+                        {error}
+                      </Typography>
+                    )}
+                    {user && (
+                      <Typography color="success.main" mt={2}>
+                        Login succeed!
+                      </Typography>
+                    )}
+                  </Box>
                 </Box>
-                <Box textAlign="center">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    disabled={isSubmitting}
-                    sx={{
-                      borderRadius: 2,
-                      fontWeight: 700,
-                      fontSize: 16,
-                      py: 1.5,
-                      boxShadow: theme.shadows[2],
-                      textTransform: 'none',
-                    }}
-                  >
-                    {isSubmitting ? 'Loading...' : 'Log In'}
-                  </Button>
-                  {error && (
-                    <Typography color="error" mt={2}>
-                      {error}
-                    </Typography>
-                  )}
-                  {user && (
-                    <Typography color="success.main" mt={2}>
-                      Login succeed!
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-            )}
+              );
+            }}
           </Formik>
+          <Grid mt={2}>
+            Didn't have an account? <Button onClick={() => nav('../signup')}>Sign Up</Button>
+          </Grid>
         </GlassBoxComponent>
       </Box>
     </Box>
