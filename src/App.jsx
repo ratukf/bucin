@@ -6,6 +6,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { CreateLetterPage } from './pages/CreateLetterPage';
 import { LettersReceivedPage } from './pages/LettersReceivedPage';
 import { LettersSentPage } from './pages/LettersSentPage';
+import { LetterPage } from './pages/LetterPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/create-letter" element={<CreateLetterPage />} />
         <Route path="/letters-received" element={<LettersReceivedPage />} />
         <Route path="/letters-sent" element={<LettersSentPage />} />
+        <Route path="/letter/:id" element={<LetterPage />} />
       </Routes>
     </Router>
   );
