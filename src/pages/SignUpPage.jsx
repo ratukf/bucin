@@ -1,32 +1,24 @@
-import {
-  Box,
-  Button,
-  Typography,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Grid,
-} from '@mui/material';
+import { Box, FormControl, Typography, InputLabel, OutlinedInput, Button } from '@mui/material';
 import { BlinkParticlesComponent } from '../components/BlinkParticlesComponent';
-import { useTheme, alpha } from '@mui/material/styles';
 import { NavbarComponent } from '../components/NavbarComponent';
+import { useTheme, alpha } from '@mui/material/styles';
 import { GlassBoxComponent } from '../components/GlassBoxComponent';
-import { useNavigate } from 'react-router-dom';
+import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { authAsyncAction } from '../store/authAsyncAction';
-import { Formik } from 'formik';
 import { useEffect } from 'react';
 import { setStatus } from '../store/authSlice';
+import { useNavigate } from 'react-router-dom';
 
-export const LoginPage = () => {
+export const SignUpPage = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { status, error } = useSelector((state) => state.auth);
+  const isSuccess = status.user.signup === 'SUCCESS';
   const nav = useNavigate();
-  const { status, user, error } = useSelector((state) => state.auth);
-  const isSuccess = status.user.login === 'SUCCESS';
 
-  const handleLogin = (values, { setSubmitting }) => {
-    dispatch(authAsyncAction.login(values)).finally(() => setSubmitting(false));
+  const handleSignUp = (values, { setSubmitting }) => {
+    dispatch(authAsyncAction.signup(values)).finally(() => setSubmitting(false));
   };
 
   return (
@@ -56,16 +48,19 @@ export const LoginPage = () => {
       >
         <GlassBoxComponent>
           <Typography variant="h5" fontWeight={700} color={theme.palette.text.primary} mb={2}>
-            Login
+            Create an Account
           </Typography>
-          <Formik initialValues={{ email: '', password: '' }} onSubmit={handleLogin}>
+          <Formik
+            onSubmit={handleSignUp}
+            initialValues={{ name: '', email: '', password: '', username: '' }}
+          >
             {({ values, handleChange, handleBlur, handleSubmit, isSubmitting, resetForm }) => {
               useEffect(() => {
                 if (isSuccess) {
                   setTimeout(() => {
-                    nav('../dashboard');
+                    nav('../login');
                     dispatch(
-                      setStatus({ type: 'user', status: { ...status.user, login: 'IDLE' } })
+                      setStatus({ type: 'user', status: { ...status.user, signup: 'IDLE' } })
                     );
                     resetForm();
                   }, 1000);
@@ -84,12 +79,87 @@ export const LoginPage = () => {
                       }}
                     >
                       <InputLabel
+                        htmlFor="signup-name"
+                        sx={{ color: theme.palette.text.secondary }}
+                      >
+                        Name
+                      </InputLabel>
+                      <OutlinedInput
+                        id="signup-name"
+                        name="name"
+                        type="text"
+                        label="Name"
+                        value={values.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        sx={{
+                          color: theme.palette.text.primary,
+                          borderRadius: 2,
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.divider,
+                          },
+                          '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.primary.main,
+                          },
+                          background: 'transparent',
+                        }}
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box mb={2}>
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        mb: 1,
+                        borderRadius: 2,
+                        background: alpha(theme.palette.background.paper, 0.35),
+                      }}
+                    >
+                      <InputLabel htmlFor="username" sx={{ color: theme.palette.text.secondary }}>
+                        Username
+                      </InputLabel>
+                      <OutlinedInput
+                        id="username"
+                        name="username"
+                        type="text"
+                        label="username"
+                        autoComplete="username"
+                        value={values.username}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        sx={{
+                          color: theme.palette.text.primary,
+                          borderRadius: 2,
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.divider,
+                          },
+                          '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.palette.primary.main,
+                          },
+                          background: 'transparent',
+                        }}
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box mb={2}>
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        mb: 1,
+                        borderRadius: 2,
+                        background: alpha(theme.palette.background.paper, 0.35),
+                      }}
+                    >
+                      <InputLabel
                         htmlFor="login-email"
                         sx={{ color: theme.palette.text.secondary }}
                       >
                         Email
                       </InputLabel>
                       <OutlinedInput
+                        autoComplete="email"
                         id="login-email"
                         name="email"
                         type="email"
@@ -128,6 +198,7 @@ export const LoginPage = () => {
                         Password
                       </InputLabel>
                       <OutlinedInput
+                        autoComplete="new-password"
                         id="login-password"
                         name="password"
                         type="password"
@@ -165,16 +236,16 @@ export const LoginPage = () => {
                         textTransform: 'none',
                       }}
                     >
-                      {isSubmitting ? 'Loading...' : 'Log In'}
+                      {isSubmitting ? 'Loading...' : 'Sign Up'}
                     </Button>
-                    {error && (
+                    {status.user.signup === 'REJECTED' && error && (
                       <Typography color="error" mt={2}>
                         {error}
                       </Typography>
                     )}
-                    {user && (
+                    {status.user.signup === 'SUCCESS' && (
                       <Typography color="success.main" mt={2}>
-                        Login succeed!
+                        Signup succeed! Redirecting...
                       </Typography>
                     )}
                   </Box>
@@ -182,9 +253,6 @@ export const LoginPage = () => {
               );
             }}
           </Formik>
-          <Grid mt={2}>
-            Didn't have an account? <Button onClick={() => nav('../signup')}>Sign Up</Button>
-          </Grid>
         </GlassBoxComponent>
       </Box>
     </Box>

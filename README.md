@@ -15,8 +15,8 @@ The name **Bucin** comes from the Indonesian phrase "Budak Cinta" (meaning "Love
 This project is currently under development. Here are the planned stages:
 
 - [x] Project initialization
-- [ ] Authentication (Login & Sign Up pages) (**current stage**)
-- [ ] Love letter sending & receiving
+- [x] Authentication (Login & Sign Up pages)
+- [ ] Love letter sending & receiving (**current stage**)
 - [ ] Couple dashboard
 - [ ] Notification system
 - [ ] Responsive & modern UI
@@ -61,7 +61,7 @@ Follow these steps to set up and run the project locally:
 
 ## 📋 Planned Features
 
-- [ ] Modern login & sign up pages
+- [x] Modern login & sign up pages
 - [ ] Send and receive love letters
 - [ ] Couple dashboard
 - [ ] Push notifications
