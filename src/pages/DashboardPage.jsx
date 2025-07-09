@@ -107,7 +107,19 @@ export const DashboardPage = () => {
                   </WhiteBoxComponent>
                 </Grid>
                 {/* Recent Letters */}
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid
+                  size={{ xs: 12, md: 6 }}
+                  sx={{
+                    cursor: 'pointer',
+                    transition: 'box-shadow 0.2s, transform 0.2s',
+                    borderRadius: 4,
+                    '&:hover': {
+                      boxShadow: 8,
+                      transform: 'scale(1.02)',
+                    },
+                  }}
+                  onClick={() => nav(`../letter/${data?.lettersReceived[0]?.id}`)}
+                >
                   <WhiteBoxComponent>
                     <motion.div
                       initial={{ opacity: 0, y: 30 }}
@@ -139,6 +151,7 @@ export const DashboardPage = () => {
                           <Button
                             key={letter.id || letter.title}
                             sx={{ textAlign: 'left', width: '100%' }}
+                            onClick={() => nav(`../letter/${letter.id}`)}
                           >
                             💌 {letter.title}
                           </Button>
@@ -179,6 +192,7 @@ export const DashboardPage = () => {
                           <Button
                             key={letter.id || letter.title}
                             sx={{ textAlign: 'left', width: '100%' }}
+                            onClick={() => nav(`../letter/${letter.id}`)}
                           >
                             💌 {letter.title}
                           </Button>
