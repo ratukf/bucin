@@ -1,19 +1,18 @@
 import { Box, Paper, Typography, TextField, Button } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import { NavbarComponent } from '../components/NavbarComponent';
 import { Formik, Form, Field } from 'formik';
-import { useCreateLetter } from '../hooks/useCreateLetter';
+import { useLetter } from '../hooks/useLetter';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { authAsyncAction } from '../store/authAsyncAction';
 
 export const CreateLetterPage = () => {
-const { theme, handleCreateLetter, successMsg, errorMsg } = useCreateLetter();
-const dispatch = useDispatch();
+  const { theme, handleCreateLetter, successMsg, errorMsg } = useLetter();
+  const dispatch = useDispatch();
 
-useEffect(() => {
-  dispatch(authAsyncAction.getUser(localStorage.getItem('userId')));
-}, [dispatch])
+  useEffect(() => {
+    dispatch(authAsyncAction.getUser(localStorage.getItem('userId')));
+  }, [dispatch]);
 
   return (
     <Box
@@ -63,7 +62,7 @@ useEffect(() => {
           <Box
             sx={{
               position: 'absolute',
-              right: {xs: 0, md: -100},
+              right: { xs: 0, md: -100 },
               bottom: -100,
               zIndex: 2,
               pointerEvents: 'none',
@@ -74,10 +73,7 @@ useEffect(() => {
           <Typography variant="h4" fontWeight={950} color={theme.palette.pink.main} align="center">
             Love Letter
           </Typography>
-          <Formik
-            initialValues={{ title: '', content: '' }}
-            onSubmit={handleCreateLetter}
-          >
+          <Formik initialValues={{ title: '', content: '' }} onSubmit={handleCreateLetter}>
             {({ values, handleChange, isSubmitting }) => (
               <Form style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <Field
@@ -133,7 +129,7 @@ useEffect(() => {
                       background: theme.palette.pink.dark,
                     },
                   }}
-                  disabled={!values.content.trim() ||!values.title.trim() || isSubmitting}
+                  disabled={!values.content.trim() || !values.title.trim() || isSubmitting}
                 >
                   Send
                 </Button>
