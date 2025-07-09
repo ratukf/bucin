@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authAsyncAction } from '../store/authAsyncAction';
 import { Formik } from 'formik';
 import { useEffect } from 'react';
-import { setStatus } from '../store/authSlice';
+import { setStatus } from '../store/slice';
 
 export const LoginPage = () => {
   const theme = useTheme();

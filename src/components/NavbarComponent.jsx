@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Button, Box, Divider } from '@mui/material
 import { useTheme } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout } from '../store/authSlice';
+import { logout } from '../store/slice';
 
 export const NavbarComponent = () => {
   const theme = useTheme();
@@ -12,7 +12,7 @@ export const NavbarComponent = () => {
   const userId = localStorage.getItem('userId');
   const navItems = userId
     ? [
-        { label: 'Home', path: '/' },
+        { label: 'Dashboard', path: '/dashboard' },
         { label: 'Your Profile', path: '/anniversary' },
         { label: 'Letters Received', path: '/letters-received' },
         { label: 'Letters Sent', path: '/letters-sent' },

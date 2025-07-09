@@ -7,12 +7,14 @@ import { useTheme } from '@mui/material';
 import { NavbarComponent } from '../components/NavbarComponent';
 import { WhiteBoxComponent } from '../components/WhiteBoxComponent';
 import { Edit } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 export const DashboardPage = () => {
   const theme = useTheme();
   const { data, status } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const userId = localStorage.getItem('userId') || data?.user?.name;
+  const nav = useNavigate();
 
   useEffect(() => {
     if (userId) {
@@ -65,8 +67,16 @@ export const DashboardPage = () => {
                             component={motion.div}
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            transition={{ type: 'spring', stiffness: 300, damping: 20, delay: idx * 0.15 }}
-                            whileHover={{ scale: 1.1, boxShadow: '0 0 24px 4px ' + theme.palette.pink.main }}
+                            transition={{
+                              type: 'spring',
+                              stiffness: 300,
+                              damping: 20,
+                              delay: idx * 0.15,
+                            }}
+                            whileHover={{
+                              scale: 1.1,
+                              boxShadow: '0 0 24px 4px ' + theme.palette.pink.main,
+                            }}
                             sx={{
                               width: 56,
                               height: 56,
@@ -196,6 +206,7 @@ export const DashboardPage = () => {
               },
               boxShadow: 10,
             }}
+            onClick={() => nav('/create-letter')}
             onMouseEnter={(e) => {
               const label = e.currentTarget.nextSibling;
               if (label) label.style.opacity = 1;

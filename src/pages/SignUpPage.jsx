@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { authAsyncAction } from '../store/authAsyncAction';
 import { useEffect } from 'react';
-import { setStatus } from '../store/authSlice';
+import { setStatus } from '../store/slice';
 import { useNavigate } from 'react-router-dom';
 
 export const SignUpPage = () => {
