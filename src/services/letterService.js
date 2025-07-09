@@ -18,10 +18,10 @@ export const letterService = {
     const response = await api.post('/letters', letterData);
     return response.data;
   },
-  // getOneLetter: async (id) => {
-  //   const response = await api.get(`/letters/${id}`);
-  //   return response.data;
-  // },
+  getOneLetter: async (id) => {
+    const response = await api.get(`/letters/${id}`);
+    return response.data;
+  },
 };
 
 export default api;
