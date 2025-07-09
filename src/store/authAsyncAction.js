@@ -25,4 +25,12 @@ export const authAsyncAction = {
       return rejectWithValue(err?.response?.data || 'Failed to fetch user data');
     }
   }),
+  getPartner: createAsyncThunk('auth/getPartner', async (partnerId) => {
+    try {
+      const data = await authService.getUser(partnerId);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data || 'Failed to fetch partner data');
+    }
+  }),
 };
