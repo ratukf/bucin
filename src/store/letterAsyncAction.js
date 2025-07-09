@@ -26,4 +26,12 @@ export const letterAsyncAction = {
       return rejectWithValue(err?.response?.data || 'Failed to create letter');
     }
   }),
+  getOneLetter: createAsyncThunk('letters/getOneLetter', async (id) => {
+    try {
+      const data = await letterService.getOneLetter(id);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data || 'Failed to fetch letter');
+    }
+  }),
 };

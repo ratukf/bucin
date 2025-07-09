@@ -75,6 +75,22 @@ export function useLetter() {
     }, [dispatch]);
   };
 
+  const useLetter = (id) => {
+    useEffect(() => {
+      const userId = localStorage.getItem('userId');
+      const recipient = data?.userDetail?.couple_id;
+      if (id) {
+        dispatch(letterAsyncAction.getOneLetter(id));
+      }
+      if (userId) {
+        dispatch(authAsyncAction.getUser(userId));
+      }
+      if (recipient) {
+        dispatch(authAsyncAction.getPartner(recipient));
+      }
+    }, [dispatch, id, data?.userDetail?.couple_id]);
+  };
+
   return {
     theme,
     handleCreateLetter,
@@ -83,5 +99,6 @@ export function useLetter() {
     useDashboardLetters,
     useLettersReceived,
     useLettersSent,
+    useLetter,
   };
 }

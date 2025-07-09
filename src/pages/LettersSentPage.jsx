@@ -1,14 +1,17 @@
-import { Box, Grid, Typography, Divider } from '@mui/material';
+import { Box, Grid, Typography, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { NavbarComponent } from '../components/NavbarComponent';
 import { useLetter } from '../hooks/useLetter';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const LettersSentPage = () => {
   const theme = useTheme();
   const { useLettersSent } = useLetter();
   const { data } = useSelector((state) => state.auth);
+  const nav = useNavigate();
 
   useLettersSent();
 
@@ -27,7 +30,22 @@ export const LettersSentPage = () => {
       </Box>
       <Box>
         <Grid container sx={{ padding: 4 }} spacing={2}>
-          <Grid size={12}>
+          <Grid size={12} display="flex" alignItems="center" mb={1}>
+            <IconButton
+              onClick={() => nav(-1)}
+              sx={{
+                mr: 1,
+                color: theme.palette.primary.main,
+                background: theme.palette.background.default,
+                boxShadow: theme.shadows[1],
+                '&:hover': {
+                  background: theme.palette.primary.light,
+                },
+              }}
+              aria-label="back"
+            >
+              <ArrowBackIcon />
+            </IconButton>
             <Typography variant={'h2'}>Letters sent 🛩️ </Typography>
           </Grid>
           <Grid size={12}>
@@ -37,6 +55,7 @@ export const LettersSentPage = () => {
             data.lettersSent.map((letter) => (
               <Grid size={{ xs: 6, md: 4 }} key={letter.id}>
                 <Box
+                  onClick={() => nav(`../letter/${letter.id}`)}
                   sx={{
                     padding: 2,
                     borderRadius: 2,

@@ -18,8 +18,8 @@ This project is currently under development. Here are the planned stages:
 - [x] Authentication (Login & Sign Up pages)
 - [x] Love letter sending & receiving
 - [x] Couple dashboard
-- [ ] Individual letter page (**CURRENT STAGE**)
-- [ ] Profile page
+- [x] Individual letter page
+- [ ] Profile page (**CURRENT STAGE**)
 - [ ] Notification system
 - [ ] Responsive & modern UI
 

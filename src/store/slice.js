@@ -9,7 +9,7 @@ const initialState = {
     partnerDetail: {},
     lettersSent: [],
     lettersReceived: [],
-    lettersDetail: {},
+    letter: {},
   },
   status: {
     user: {
@@ -20,6 +20,7 @@ const initialState = {
     partnerDetail: 'IDLE',
     lettersSent: 'IDLE',
     lettersReceived: 'IDLE',
+    letter: 'IDLE',
     letters: {
       create: 'IDLE',
       update: 'IDLE',
@@ -146,6 +147,20 @@ const slice = createSlice({
       .addCase(letterAsyncAction.createLetter.rejected, (state, action) => {
         state.status.letters.create = 'REJECTED';
         state.error = action.payload || 'Failed to create letter';
+      })
+      .addCase(letterAsyncAction.getOneLetter.pending, (state) => {
+        state.status.letter = 'PENDING';
+        state.error = null;
+      })
+      .addCase(letterAsyncAction.getOneLetter.fulfilled, (state, action) => {
+        state.status.letter = 'SUCCESS';
+        state.data.letter = action.payload;
+        state.error = null;
+      })
+      .addCase(letterAsyncAction.getOneLetter.rejected, (state, action) => {
+        state.status.letter = 'REJECTED';
+        state.data.letter = {};
+        state.error = action.payload || 'Failed to fetch letter data';
       });
   },
 });

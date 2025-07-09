@@ -1,14 +1,16 @@
-import { Box, Grid, Typography, Divider } from '@mui/material';
+import { Box, Grid, Typography, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { NavbarComponent } from '../components/NavbarComponent';
 import { useLetter } from '../hooks/useLetter';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 export const LettersReceivedPage = () => {
   const theme = useTheme();
   const { useLettersReceived } = useLetter();
   const { data } = useSelector((state) => state.auth);
+  const nav = useNavigate();
 
   useLettersReceived();
 
@@ -27,7 +29,22 @@ export const LettersReceivedPage = () => {
       </Box>
       <Box>
         <Grid container sx={{ padding: 4 }} spacing={2}>
-          <Grid size={12}>
+          <Grid size={12} display="flex" alignItems="center" mb={1}>
+            <IconButton
+              onClick={() => nav(-1)}
+              sx={{
+                mr: 1,
+                color: theme.palette.primary.main,
+                background: theme.palette.background.default,
+                boxShadow: theme.shadows[1],
+                '&:hover': {
+                  background: theme.palette.primary.light,
+                },
+              }}
+              aria-label="back"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z"/></svg>
+            </IconButton>
             <Typography variant={'h2'}>Letters from {data?.partnerDetail?.name} 💌💕 </Typography>
           </Grid>
           <Grid size={12}>
@@ -37,6 +54,7 @@ export const LettersReceivedPage = () => {
             data.lettersReceived.map((letter) => (
               <Grid size={{ xs: 6, md: 4 }} key={letter.id}>
                 <Box
+                  onClick={() => nav(`../letter/${letter.id}`)}
                   sx={{
                     padding: 2,
                     borderRadius: 2,
