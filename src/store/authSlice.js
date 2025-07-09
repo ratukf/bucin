@@ -42,22 +42,35 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(authAsyncAction.pending, (state) => {
+      .addCase(authAsyncAction.login.pending, (state) => {
         state.status.user.login = 'PENDING';
         state.error = null;
         state.isAuthenticated = false;
       })
-      .addCase(authAsyncAction.fulfilled, (state, action) => {
+      .addCase(authAsyncAction.login.fulfilled, (state, action) => {
         state.status.user.login = 'SUCCESS';
         state.user = action.payload;
         state.error = null;
         state.isAuthenticated = true;
       })
-      .addCase(authAsyncAction.rejected, (state, action) => {
+      .addCase(authAsyncAction.login.rejected, (state, action) => {
         state.status.user.login = 'REJECTED';
         state.user = null;
         state.error = action.payload || 'Login failed';
         state.isAuthenticated = false;
+      })
+      .addCase(authAsyncAction.signup.pending, (state) => {
+        state.status.user.signup = 'PENDING';
+        state.error = null;
+      })
+      .addCase(authAsyncAction.signup.fulfilled, (state) => {
+        state.status.user.signup = 'SUCCESS';
+        state.error = null;
+      })
+      .addCase(authAsyncAction.signup.rejected, (state, action) => {
+        state.status.user.signup = 'REJECTED';
+        state.user = null;
+        state.error = action.payload || 'Signup failed';
       });
   },
 });

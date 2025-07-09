@@ -7,9 +7,15 @@ const api = axios.create({
   },
 });
 
-export const authService = async (email, password) => {
-  const response = await api.get(`/user?email=${email}&password=${password}`, { email, password });
-  return response.data;
+export const authService = {
+  login: async (email, password) => {
+    const response = await api.get(`/user?email=${email}&password=${password}`);
+    return response.data;
+  },
+  signup: async (userData) => {
+    const response = await api.post('/user', userData);
+    return response.data;
+  },
 };
 
 export default api;
