@@ -9,7 +9,7 @@ const api = axios.create({
 
 export const letterService = {
   getLetters: async (userId) => {
-    const response = await api.get(`/letters?user_id=${userId}`);
+    const response = await api.get(`/letters?user_id=${userId}&_sort=date&_order=desc`);
     return response.data;
   },
   createLetter: async (letterData) => {
