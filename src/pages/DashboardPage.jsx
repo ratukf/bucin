@@ -1,9 +1,9 @@
 import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { authAsyncAction } from '../store/authAsyncAction';
+import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
+import dayjs from 'dayjs';
+
 import { NavbarComponent } from '../components/NavbarComponent';
 import { WhiteBoxComponent } from '../components/WhiteBoxComponent';
 import { Edit } from '@mui/icons-material';
@@ -13,8 +13,6 @@ import { useLetter } from '../hooks/useLetter';
 export const DashboardPage = () => {
   const theme = useTheme();
   const { data } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const userId = localStorage.getItem('userId') || data?.user?.name;
   const nav = useNavigate();
   const { useDashboardLetters } = useLetter();
   const lettersSent = data?.lettersSent ? data?.lettersSent?.length : 0;
@@ -22,6 +20,20 @@ export const DashboardPage = () => {
   const recentLetters = data?.lettersReceived[0]?.content;
 
   useDashboardLetters();
+
+  function getDaysToNextBirthday(birthday) {
+    if (!birthday) return null;
+    const today = dayjs();
+    const bday = dayjs(birthday);
+    let next = bday.year(today.year());
+    if (next.isBefore(today, 'day')) {
+      next = next.add(1, 'year');
+    }
+    return next.diff(today, 'day');
+  }
+
+  const userDaysLeft = getDaysToNextBirthday(data?.userDetail?.birthday);
+  const partnerDaysLeft = getDaysToNextBirthday(data?.partnerDetail?.birthday);
 
   return (
     <Box
@@ -238,17 +250,23 @@ export const DashboardPage = () => {
             >
               <WhiteBoxComponent>
                 <Typography variant={'h4'} sx={{ fontWeight: 950 }}>
-                  🎂 Anniversary & Birthday Reminders
+                  🎂 Birthday Reminders
                 </Typography>
                 <img
                   src="/dashboard.png"
-                  alt="Anniversary & Birthday Reminders"
+                  alt="Birthday Reminders"
                   style={{ width: '80%', height: 'auto' }}
                 />
                 <Grid container>
                   <Grid size={6}>
-                    <Typography mt={2}>{data?.userDetail?.name}</Typography>
-                    <Typography>56 days left</Typography>
+                    <Typography mt={2}>{data?.userDetail?.name || '-'}</Typography>
+                    <Typography>
+                      {userDaysLeft === null
+                        ? '-'
+                        : userDaysLeft === 0
+                          ? 'Today!'
+                          : `${userDaysLeft} days left`}
+                    </Typography>
                   </Grid>
                   <Grid size={6}>
                     <Typography mt={2}>
@@ -256,7 +274,13 @@ export const DashboardPage = () => {
                         ? data?.partnerDetail?.name
                         : 'No partner found ☹️'}
                     </Typography>
-                    <Typography>{data?.partnerDetail ? '20' : '0'} days left</Typography>
+                    <Typography>
+                      {partnerDaysLeft === null
+                        ? '-'
+                        : partnerDaysLeft === 0
+                          ? 'Today!'
+                          : `${partnerDaysLeft} days left`}
+                    </Typography>
                   </Grid>
                 </Grid>
               </WhiteBoxComponent>
