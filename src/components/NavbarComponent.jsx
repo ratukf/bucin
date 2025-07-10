@@ -38,7 +38,7 @@ export const NavbarComponent = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', mr: 1 }}>
             <img src="/icon.svg" alt="Bucin Icon" style={{ height: 32, marginRight: 8 }} />
             <Typography
-              onClick={() => userId ? navigate('/dashboard') : navigate('/')}
+              onClick={() => navigate('/')}
               variant="h4"
               component="div"
               sx={{
