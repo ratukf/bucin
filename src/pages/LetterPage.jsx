@@ -83,7 +83,8 @@ export const LetterPage = () => {
         </Typography>
         <Box mt={2}>
           <Typography variant="caption" color={theme.palette.text.secondary}>
-            <strong>Date:</strong> {letter?.date ? dayjs(letter.date).format('DD MMM YYYY HH:mm') : '-'}
+            <strong>Date:</strong>{' '}
+            {letter?.date ? dayjs(letter.date).format('DD MMM YYYY HH:mm') : '-'}
           </Typography>
         </Box>
         <Box mt={1} display="flex" justifyContent="space-between">
