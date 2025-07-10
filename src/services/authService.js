@@ -20,6 +20,14 @@ export const authService = {
     const response = await api.get(`/user/${userId}`);
     return response.data;
   },
+  connectPartner: async (userId, partnerId) => {
+    const userRes = await api.patch(`/user/${userId}`, { couple_id: partnerId });
+    const partnerRes = await api.patch(`/user/${partnerId}`, { couple_id: userId });
+    return {
+      user: userRes.data,
+      partner: partnerRes.data,
+    };
+  },
 };
 
 export default api;

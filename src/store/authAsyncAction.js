@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '../services/authService';
+import { connect } from 'formik';
 
 export const authAsyncAction = {
   login: createAsyncThunk('auth/login', async ({ email, password }) => {
@@ -31,6 +32,14 @@ export const authAsyncAction = {
       return data;
     } catch (err) {
       return rejectWithValue(err?.response?.data || 'Failed to fetch partner data');
+    }
+  }),
+  connectPartner: createAsyncThunk('auth/connectPartner', async ({ userId, partnerId }) => {
+    try {
+      const { user, partner } = await authService.connectPartner(userId, partnerId);
+      return { user, partner };
+    } catch (err) {
+      return rejectWithValue(err?.response?.data || 'Failed to connect with partner');
     }
   }),
 };

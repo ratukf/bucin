@@ -26,6 +26,7 @@ const initialState = {
       update: 'IDLE',
       delete: 'IDLE',
     },
+    connectPartner: 'IDLE',
   },
   user: null,
   loading: false,
@@ -161,6 +162,17 @@ const slice = createSlice({
         state.status.letter = 'REJECTED';
         state.data.letter = {};
         state.error = action.payload || 'Failed to fetch letter data';
+      })
+      .addCase(authAsyncAction.connectPartner.pending, (state) => {
+        state.status.connectPartner = 'PENDING';
+        state.error = null;
+      })
+      .addCase(authAsyncAction.connectPartner.fulfilled, (state, action) => {
+        state.status.connectPartner = 'SUCCESS';
+      })
+      .addCase(authAsyncAction.connectPartner.rejected, (state, action) => {
+        state.status.connectPartner = 'REJECTED';
+        state.error = action.payload || 'Failed to connect with partner';
       });
   },
 });
