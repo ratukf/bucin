@@ -58,7 +58,14 @@ export const SignUpPage = () => {
               initialValues={{ name: '', email: '', password: '', username: '', birthday: null }}
               onSubmit={handleAuth}
             >
-              {({ values, handleChange, handleBlur, handleSubmit, setFieldValue, isSubmitting }) => (
+              {({
+                values,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                setFieldValue,
+                isSubmitting,
+              }) => (
                 <Box component="form" sx={{ width: '100%' }} onSubmit={handleSubmit}>
                   <Box mb={2}>
                     <FormControl
@@ -70,7 +77,10 @@ export const SignUpPage = () => {
                         background: alpha(theme.palette.background.paper, 0.35),
                       }}
                     >
-                      <InputLabel htmlFor="signup-name" sx={{ color: theme.palette.text.secondary }}>
+                      <InputLabel
+                        htmlFor="signup-name"
+                        sx={{ color: theme.palette.text.secondary }}
+                      >
                         Name
                       </InputLabel>
                       <OutlinedInput
@@ -141,7 +151,10 @@ export const SignUpPage = () => {
                         background: alpha(theme.palette.background.paper, 0.35),
                       }}
                     >
-                      <InputLabel htmlFor="login-email" sx={{ color: theme.palette.text.secondary }}>
+                      <InputLabel
+                        htmlFor="login-email"
+                        sx={{ color: theme.palette.text.secondary }}
+                      >
                         Email
                       </InputLabel>
                       <OutlinedInput
